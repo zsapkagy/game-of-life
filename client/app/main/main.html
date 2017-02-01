@@ -1,7 +1,9 @@
 
 <table id="game-board">
   <tr ng-repeat="h in $ctrl.getHeight() track by $index" ng-init="heightIndex = $index">
-    <td ng-class="$ctrl.getClass(heightIndex, $index)" ng-repeat="w in $ctrl.getWidth() track by $index"> </td>
+    <td ng-class="$ctrl.getClass(heightIndex, $index)"
+      ng-click="$ctrl.liveOrDie(heightIndex, $index)"
+      ng-repeat="w in $ctrl.getWidth() track by $index"> </td>
   </tr>
 </table>
 

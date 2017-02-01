@@ -58,11 +58,38 @@ export class MainController {
     return _.sortedIndexOf(this.currentGeneration.alive, index) > -1;
   }
 
-  getClass(heightIndex, widthIndex) {
-    return this.isActive(widthIndex + this.currentGeneration.width * heightIndex) ? 'live' : '';
+  getPositionFromWidthHeightIndex(heightIndex, widthIndex) {
+    return widthIndex + this.currentGeneration.width * heightIndex;
   }
 
+  getClass(heightIndex, widthIndex) {
+    return this.isActive(this.getPositionFromWidthHeightIndex(heightIndex, widthIndex)) ? 'live' : '';
+  }
+
+  /**
+   * Make a cell alive or dead
+   */
+  liveOrDie(heightIndex, widthIndex) {
+    const position = this.getPositionFromWidthHeightIndex(heightIndex, widthIndex);
+    if(this.isActive(position)) {
+      // Remove the cell from the alive list if it was active before the click
+      _.pullAt(this.currentGeneration.alive, _.sortedIndexOf(this.currentGeneration.alive, position));
+    } else {
+      // Add the cell to the alive list
+      this.currentGeneration.alive.push(position);
+      // And reorder them
+      this.currentGeneration.alive = _.sortBy(this.currentGeneration.alive, [value => value]);
+    }
+    console.log(this.currentGeneration.alive);
+  }
+
+  remove
+
   // ADD REMOVE HEIGHT/WIDTH BUTTONS
+
+  /**
+   * Recalculate the positions of the live cells because it depends on the width of the game board
+   */
   changeGameBoardWidth(amount) {
     this.currentGeneration.alive = this.currentGeneration.alive.map(value =>
       value + amount * (Math.ceil(value / this.currentGeneration.width) - 1)
