@@ -1,4 +1,5 @@
-# gol
+# Game of life
+[Wikipedia](https://en.wikipedia.org/wiki/Conway's_Game_of_Life)
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 4.1.2.
 
