@@ -15,15 +15,13 @@ import {
   routeConfig
 } from './app.config';
 
-import navbar from '../components/navbar/navbar.component';
-import footer from '../components/footer/footer.component';
 import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 
 import './app.css';
 
-angular.module('app', [ngCookies, ngResource, ngSanitize, uiRouter, navbar, footer, main,
+angular.module('app', [ngCookies, ngResource, ngSanitize, uiRouter, main,
   constants, util
 ])
   .config(routeConfig);
