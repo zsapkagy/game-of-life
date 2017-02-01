@@ -4,8 +4,12 @@ import routing from './main.routes';
 
 export class MainController {
 
-  awesomeThings = [];
-  newThing = '';
+  currentGeneration = {
+    width: 5,
+    height: 5,
+    alive: [11, 12, 13]
+  };
+  run = false;
 
   /*@ngInject*/
   constructor($http) {
@@ -13,23 +17,49 @@ export class MainController {
   }
 
   $onInit() {
-    this.$http.get('/api/things')
-      .then(response => {
-        this.awesomeThings = response.data;
-      });
   }
 
-  addThing() {
-    if(this.newThing) {
-      this.$http.post('/api/things', {
-        name: this.newThing
-      });
-      this.newThing = '';
+  stop() {
+    this.run = false;
+  }
+  play() {
+    this.run = true;
+    this.startGenerationLoop();
+  }
+
+  startGenerationLoop() {
+    if(this.run) {
+      this.getNextGeneration()
+        .then(() => {
+          setTimeout(() => {
+            this.startGenerationLoop();
+          }, 500);
+        });
     }
   }
 
-  deleteThing(thing) {
-    this.$http.delete(`/api/things/${thing._id}`);
+  getNextGeneration() {
+    return this.$http.post('/api/patterns/next-generation', this.currentGeneration)
+      .then(response => {
+        this.currentGeneration.alive = response.data;
+      });
+  }
+
+  getHeight() {
+    return new Array(this.currentGeneration.height);
+  }
+
+  getWidth() {
+    return new Array(this.currentGeneration.height);
+  }
+
+  isActive(index) {
+    // TODO properly inject lodash
+    return _.sortedIndexOf(this.currentGeneration.alive, index) > -1;
+  }
+
+  getClass(heightIndex, widthIndex) {
+    return this.isActive(widthIndex + this.currentGeneration.width * heightIndex) ? 'live' : '';
   }
 }
 
