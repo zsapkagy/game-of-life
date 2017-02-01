@@ -50,7 +50,7 @@ export class MainController {
   }
 
   getWidth() {
-    return new Array(this.currentGeneration.height);
+    return new Array(this.currentGeneration.width);
   }
 
   isActive(index) {
@@ -60,6 +60,26 @@ export class MainController {
 
   getClass(heightIndex, widthIndex) {
     return this.isActive(widthIndex + this.currentGeneration.width * heightIndex) ? 'live' : '';
+  }
+
+  // ADD REMOVE HEIGHT/WIDTH BUTTONS
+  changeGameBoardWidth(amount) {
+    this.currentGeneration.alive = this.currentGeneration.alive.map(value =>
+      value + amount * (Math.ceil(value / this.currentGeneration.width) - 1)
+    );
+    this.currentGeneration.width += amount;
+  }
+  addWidth() {
+    this.changeGameBoardWidth(1);
+  }
+  removeWidth() {
+    this.changeGameBoardWidth(-1);
+  }
+  addHeight() {
+    this.currentGeneration.height++;
+  }
+  removeHeight() {
+    this.currentGeneration.height--;
   }
 }
 

@@ -6,3 +6,7 @@
 #game-board td.live{
   background-color: darkslategray;
 }
+
+main input{
+  width: 30px;
+}
